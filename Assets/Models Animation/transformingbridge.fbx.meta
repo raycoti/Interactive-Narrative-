@@ -1,0 +1,195 @@
+fileFormatVersion: 2
+guid: 979ef3616f16b39479193d41ba55df6c
+timeCreated: 1458008979
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: group
+    100002: pasted__pCube1
+    100004: pasted__pCube2
+    100006: pasted__pCube3
+    100008: pasted__pCube4
+    100010: pasted__pCube5
+    100012: pasted__transform1
+    100014: pasted__transform2
+    100016: pasted__transform3
+    100018: pasted__transform4
+    100020: pCube1
+    100022: pCube2
+    100024: pCube3
+    100026: pCube4
+    100028: place3dTexture1
+    100030: place3dTexture2
+    100032: place3dTexture3
+    100034: place3dTexture4
+    100036: transform1
+    100038: transform2
+    100040: transform3
+    100042: transform4
+    100044: //RootNode
+    400000: group
+    400002: pasted__pCube1
+    400004: pasted__pCube2
+    400006: pasted__pCube3
+    400008: pasted__pCube4
+    400010: pasted__pCube5
+    400012: pasted__transform1
+    400014: pasted__transform2
+    400016: pasted__transform3
+    400018: pasted__transform4
+    400020: pCube1
+    400022: pCube2
+    400024: pCube3
+    400026: pCube4
+    400028: place3dTexture1
+    400030: place3dTexture2
+    400032: place3dTexture3
+    400034: place3dTexture4
+    400036: transform1
+    400038: transform2
+    400040: transform3
+    400042: transform4
+    400044: //RootNode
+    4300000: pasted__pCube5
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: pasted__pCube5
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 192
+      lastFrame: 600
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: group
+        weight: 1
+      - path: group/pasted__pCube1
+        weight: 1
+      - path: group/pasted__pCube1/pasted__transform2
+        weight: 1
+      - path: group/pasted__pCube2
+        weight: 1
+      - path: group/pasted__pCube2/pasted__transform1
+        weight: 1
+      - path: group/pasted__pCube3
+        weight: 1
+      - path: group/pasted__pCube3/pasted__transform4
+        weight: 1
+      - path: group/pasted__pCube4
+        weight: 1
+      - path: group/pasted__pCube4/pasted__transform3
+        weight: 1
+      - path: group/pasted__pCube5
+        weight: 1
+      - path: pCube1
+        weight: 1
+      - path: pCube1/transform2
+        weight: 1
+      - path: pCube2
+        weight: 1
+      - path: pCube2/transform1
+        weight: 1
+      - path: pCube3
+        weight: 1
+      - path: pCube3/transform4
+        weight: 1
+      - path: pCube4
+        weight: 1
+      - path: pCube4/transform3
+        weight: 1
+      - path: place3dTexture1
+        weight: 1
+      - path: place3dTexture2
+        weight: 1
+      - path: place3dTexture3
+        weight: 1
+      - path: place3dTexture4
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
