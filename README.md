@@ -7,8 +7,8 @@
 ##[Background](#background)
 ##[Overview](#overview)
 ##[Main Prefabs](#prefabs)
-##[Models](#models)
-##[Scripts](#scripts)
+##[Models](#models2)
+##[Scripts](#scripts2)
 
 <a name = "background"/>
 ##Background
@@ -41,10 +41,10 @@ This prefab is simply a collider that utilizes [moveplayer.cs](https://github.co
 
 ###networkfirst
 This is a modefied firstperson character controller that handles multiple users for online play. The simple script [setuplocalplayer.cs](https://github.com/raycoti/Interactive-Narrative-/blob/master/Assets/Standard%2520Assets/Characters/FirstPersonCharacter/Scripts/SetUpLocalPlayer.cs) enables the first person camera. By having all cameras not enabled, and only enabling the appropriate appropriate camera we avoid the problem of being able to control all users' cameras. 
-<a name = "models"/>
+<a name = "models2"/>
 ##Models
 These are the models I created in Maya. The models are of my college's library, science building and student center. Areas in Chicago include the trainstation closest to my house and train underpasses that populate my neighborhood. 
 [models/animations](https://github.com/raycoti/Interactive-Narrative-/tree/master/Assets/Models%20Animation)
-<a name = "scripts"/>
+<a name = "scripts2"/>
 ##other scripts
 [creator.cs](https://github.com/raycoti/Interactive-Narrative-/blob/master/Assets/creator.cs) may seem like it only spawns a random forest of blocks, but it has the foundation makeup of generating an enviornment! The entire enviornment will be mapped to a grid system, each prefab and model will be placed using this grid. 
