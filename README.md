@@ -5,13 +5,14 @@
 
 #Table of contents
 ##[Background](#background)
+##[Overview](#overview)
 ##[Main Prefabs](#prefabs)
 ##[Models](#models)
 ##[Scripts](#scripts)
 
 <a name = "background"/>
 ##Background
-This was my senior capstone project. I originally wanted to create a short film   
+This was my senior capstone project. The project presentation had my application running on 4 laptops exploring the same enviornment together while the laptops stremed their displays on a larger screen The future of this project focuses on the power of personal narrative working along with the power of immersion. I want to develop a new way for people to tell and share stories.      
 
 ###Phases
 - [x] Create models, scipts and animations
@@ -22,6 +23,12 @@ This was my senior capstone project. I originally wanted to create a short film
 - [ ] Allow for users to update text of enviorment
 - [ ] Create a scene builder
 
+<a name = "overview"/>
+##Overview
+###Technical:
+Up to 15 users can explore this enviornment I created. You walk around with the standard "wasd" and mouse controls. Walk around the enviornment or go in a train to enter a new location faster. Along the way you will find boxes with floating text, simply walk into the box and the text will start cycling through parts of a poem. Each time you interact with a word cloud in the sky will also be changing. Future iterations will allow for you to submit your own messages to the word cloud for others to see. 
+###Artistic:
+This piece is about the factors that change our perception of others. It centers on the parallel of artwork and people: The context a piece of art is presented in will influence our judgement of its worth. If a piece of graffiti is in an art gallery instead of on a building wall it will be seen as art instead of vandalism. In what instances do we appear to be vandalism as opposed to artwork? When we don't explicitly carry our  gold plaques(degree/certificates) will others assume us to be the latter or the former?  
 <a name = "prefabs"/>
 ##Main Prefabs
 ###Textrenderer
