@@ -4,10 +4,10 @@
 ###[Gallery](http://raycoti.com/index.php/2016/09/07/ct-senior-project/)
 
 #Table of contents
-###[Background](#background)
-###[Main Prefabs](#prefabs)
-###[Models](#models)
-###[Scripts](#scripts)
+##[Background](#background)
+##[Main Prefabs](#prefabs)
+##[Models](#models)
+##[Scripts](#scripts)
 
 <a name = "background"/>
 ##Background
