@@ -1,6 +1,8 @@
 # Interactive-Narrative-
 ###[Online demo (desktop only)] (http://raycoti.com/index.php/2016/09/21/interactive-narrative-demo/)
 
+###[Gallery](http://raycoti.com/index.php/2016/09/07/ct-senior-project/)
+
 #Table of contents
 ###[Background](#background)
 ###[Main Prefabs](#prefabs)
