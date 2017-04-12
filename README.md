@@ -1,6 +1,5 @@
 # Interactive-Narrative-
 [Online Demo(Desktop Only)](http://raycoti.com/index.php/2016/09/21/interactive-narrative-demo/)
-
 [Art Installation](https://www.conncoll.edu/academics/internships-student-research/student-research-projects/immersive-virtual-environment-exploring-a-personal-campus-experience.html)
 
 # Table of contents
