@@ -1,17 +1,19 @@
 # Interactive-Narrative-
-[Online Demo(Desktop Only)](http://raycoti.com/index.php/2016/09/21/interactive-narrative-demo/)
-
-
-[Videos](http://raymondcoti.com/index.php/2017/02/08/interactive-narrative/)
-
-[Art Installation](https://www.conncoll.edu/academics/internships-student-research/student-research-projects/immersive-virtual-environment-exploring-a-personal-campus-experience.html)
-
 # Table of contents
 [Background](#background)
 [Overview](#overview)
 [Main Prefabs](#prefabs)
 [Models](#models2)
 [Scripts](#scripts2)
+
+
+[![hi](./images/beginning.png)](https://youtu.be/tkzGKdzG9Fk)
+
+[Blog post](http://raymondcoti.com/index.php/2017/02/08/interactive-narrative/)
+
+[Art Installation](https://www.conncoll.edu/academics/internships-student-research/student-research-projects/immersive-virtual-environment-exploring-a-personal-campus-experience.html)
+
+[Online Demo(Desktop Only)](http://raycoti.com/index.php/2016/09/21/interactive-narrative-demo/)
 
 <a name = "background"/>
 
