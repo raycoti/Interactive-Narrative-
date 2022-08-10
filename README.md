@@ -9,8 +9,6 @@
 
 [![hi](./images/beginning.png)](https://youtu.be/tkzGKdzG9Fk)
 
-[Blog post](https://www.raycoti.com/projects/Interactive%20Narrative)
-
 [Art Installation](https://www.conncoll.edu/academics/internships-student-research/student-research-projects/immersive-virtual-environment-exploring-a-personal-campus-experience.html)
 
 [Online Demo(Desktop Only)](https://interactivenarrative.azurewebsites.net/)
@@ -21,14 +19,6 @@
 This was my senior capstone project. The project presentation had my application running on 4 laptops exploring the same environment together while the laptops streamed their displays on a larger screen The future of this project focuses on the power of personal narrative working along with the power of immersion. I want to develop a new way for people to tell and share stories.      
 
 
-### Phases
-- [x] Create models, scripts, and animations
-- [x] Manually create environment 
-- [x] Implement network play
-- [x] Have it run online
-- [ ] Have online builds implement network play
-- [ ] Allow for users to update text of environment 
-- [ ] Create a scene builder
 
 <a name = "overview"/>
 
