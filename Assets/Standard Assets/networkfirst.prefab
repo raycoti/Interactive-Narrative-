@@ -30,8 +30,6 @@ GameObject:
   - 54: {fileID: 5433806}
   - 136: {fileID: 13600394}
   - 114: {fileID: 11431398}
-  - 114: {fileID: 11498314}
-  - 114: {fileID: 11486434}
   - 33: {fileID: 3339200}
   - 23: {fileID: 2327190}
   - 114: {fileID: 11445404}
@@ -294,58 +292,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   child: {fileID: 117360}
---- !u!114 &11486434
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 177492}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0.1
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
---- !u!114 &11498314
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 177492}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 59
-    i1: 49
-    i2: 118
-    i3: 37
-    i4: 185
-    i5: 223
-    i6: 24
-    i7: 52
-    i8: 170
-    i9: 38
-    i10: 131
-    i11: 183
-    i12: 228
-    i13: 166
-    i14: 48
-    i15: 206
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
 --- !u!136 &13600394
 CapsuleCollider:
   m_ObjectHideFlags: 1
