@@ -290,9 +290,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 2092058}
   movementSettings:
-    ForwardSpeed: 6
-    BackwardSpeed: 5
-    StrafeSpeed: 6
+    ForwardSpeed: 15
+    BackwardSpeed: 8
+    StrafeSpeed: 10
     RunMultiplier: 2
     RunKey: 304
     JumpForce: 100
@@ -331,8 +331,8 @@ MonoBehaviour:
       m_RotationOrder: 4
     CurrentTargetSpeed: 8
   mouseLook:
-    XSensitivity: 2
-    YSensitivity: 2
+    XSensitivity: 3
+    YSensitivity: 3
     clampVerticalRotation: 1
     MinimumX: -45
     MaximumX: 90

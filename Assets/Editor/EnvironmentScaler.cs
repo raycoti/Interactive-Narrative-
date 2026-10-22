@@ -14,7 +14,7 @@ public class EnvironmentScaler : EditorWindow {
 
     // The player prefab's values at full size. Set from these rather than multiplied,
     // so applying a scale is the same however many times it has been applied before.
-    const float ForwardSpeed = 12, BackwardSpeed = 10, StrafeSpeed = 12;
+    // Walking speed is left alone so it can be tuned by feel on the prefab.
     const float FogStartDistance = 20, FarClipPlane = 2010;
 
     float scale = 0.4f;
@@ -101,12 +101,6 @@ public class EnvironmentScaler : EditorWindow {
     static void ScalePlayerPrefab (float factor) {
         var player = PrefabUtility.LoadPrefabContents(PlayerPrefabPath);
         try {
-            var controller = new SerializedObject(player.GetComponent<UnityStandardAssets.Characters.FirstPerson.RigidbodyFirstPersonController>());
-            controller.FindProperty("movementSettings.ForwardSpeed").floatValue = ForwardSpeed * factor;
-            controller.FindProperty("movementSettings.BackwardSpeed").floatValue = BackwardSpeed * factor;
-            controller.FindProperty("movementSettings.StrafeSpeed").floatValue = StrafeSpeed * factor;
-            controller.ApplyModifiedPropertiesWithoutUndo();
-
             var camera = player.GetComponentInChildren<Camera>(true);
             camera.farClipPlane = FarClipPlane * factor;
 
