@@ -86,6 +86,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private float m_YRotation;
         private Vector3 m_GroundContactNormal;
         private bool m_Jump, m_PreviouslyGrounded, m_Jumping, m_IsGrounded;
+        private bool m_Held, m_WaitForRelease;
+        private bool m_IgnoreBack;           // after turning around, back is ignored until let go
+        private float m_GlideTime;           // time left in a glide; input is ignored meanwhile
+        private bool m_GlideTurns;           // whether the glide also turns the view to m_LookAt
+        private Vector3 m_GlideTo, m_LookAt, m_LeaveTo;
+        private const float GlideDuration = 0.6f;
 
 
         public Vector3 Velocity
@@ -103,6 +109,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
             get { return m_Jumping; }
         }
 
+        // True while stopped by HoldUntilWalk.
+        public bool Held
+        {
+            get { return m_Held; }
+        }
+
         public bool Running
         {
             get
@@ -116,6 +128,41 @@ namespace UnityStandardAssets.Characters.FirstPerson
         }
 
 
+        // Stops the player, glides them to standAt (keeping their height) while turning to
+        // face lookAt, then holds them there. Pressing forward lets them walk on; back glides
+        // them to leaveTo and turns them around; left or right turns them to face that way.
+        // Forward is usually held when this is called, so it has to be let go first. Looking
+        // around still works once the glide ends.
+        public void HoldUntilWalk(Vector3 standAt, Vector3 lookAt, Vector3 leaveTo)
+        {
+            m_Held = true;
+            m_WaitForRelease = true;
+            m_Jump = false;
+            m_RigidBody.linearVelocity = new Vector3(0f, m_RigidBody.linearVelocity.y, 0f);
+            m_LookAt = lookAt;
+            m_LeaveTo = leaveTo;
+            Glide(standAt, true);
+        }
+
+
+        // Points the next glide's view turn at the horizon, the given angle round from where the
+        // player faces now (positive is to the right).
+        private void FaceTurned(float degrees)
+        {
+            var facing = transform.forward;
+            facing.y = 0f;
+            m_LookAt = cam.transform.position + Quaternion.AngleAxis(degrees, Vector3.up)*facing.normalized*1000f;
+        }
+
+
+        private void Glide(Vector3 to, bool turnView)
+        {
+            m_GlideTo = to;
+            m_GlideTurns = turnView;
+            m_GlideTime = GlideDuration;
+        }
+
+
         private void Start()
         {
             m_RigidBody = GetComponent<Rigidbody>();
@@ -126,9 +173,14 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void Update()
         {
-            RotateView();
+            if (m_GlideTime > 0f)
+                m_GlideTime -= Time.deltaTime;
+            if (m_GlideTime > 0f && m_GlideTurns)
+                mouseLook.TurnTowards(transform, cam.transform, m_LookAt, 1f - Mathf.Exp(-8f*Time.deltaTime));
+            else
+                RotateView();
 
-            if (CrossPlatformInputManager.GetButtonDown("Jump") && !m_Jump)
+            if (CrossPlatformInputManager.GetButtonDown("Jump") && !m_Jump && !m_Held)
             {
                 m_Jump = true;
             }
@@ -139,6 +191,15 @@ namespace UnityStandardAssets.Characters.FirstPerson
         {
             GroundCheck();
             Vector2 input = GetInput();
+
+            var gliding = m_GlideTime > 0f;
+            if (gliding)
+            {
+                // Steer by velocity so the glide collides with walls, easing in towards the target.
+                var step = (m_GlideTo - m_RigidBody.position)*(1f - Mathf.Exp(-8f*Time.fixedDeltaTime))/Time.fixedDeltaTime;
+                m_RigidBody.WakeUp();
+                m_RigidBody.linearVelocity = new Vector3(step.x, m_RigidBody.linearVelocity.y, step.z);
+            }
 
             if ((Mathf.Abs(input.x) > float.Epsilon || Mathf.Abs(input.y) > float.Epsilon) && (advancedSettings.airControl || m_IsGrounded))
             {
@@ -158,7 +219,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             if (m_IsGrounded)
             {
-                m_RigidBody.linearDamping = 5f;
+                // No drag mid-glide, or it would cut the glide short.
+                m_RigidBody.linearDamping = gliding ? 0f : 5f;
 
                 if (m_Jump)
                 {
@@ -168,7 +230,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
                     m_Jumping = true;
                 }
 
-                if (!m_Jumping && Mathf.Abs(input.x) < float.Epsilon && Mathf.Abs(input.y) < float.Epsilon && m_RigidBody.linearVelocity.magnitude < 1f)
+                // Input is zeroed mid-glide, so sleeping here would cancel the glide.
+                if (!gliding && !m_Jumping && Mathf.Abs(input.x) < float.Epsilon && Mathf.Abs(input.y) < float.Epsilon && m_RigidBody.linearVelocity.magnitude < 1f)
                 {
                     m_RigidBody.Sleep();
                 }
@@ -215,6 +278,39 @@ namespace UnityStandardAssets.Characters.FirstPerson
                     x = CrossPlatformInputManager.GetAxis("Horizontal"),
                     y = CrossPlatformInputManager.GetAxis("Vertical")
                 };
+            if (m_Held)
+            {
+                // Raw input, so letting go registers at once rather than after the axis eases out.
+                var walk = CrossPlatformInputManager.GetAxisRaw("Vertical");
+                var side = CrossPlatformInputManager.GetAxisRaw("Horizontal");
+                if (walk == 0f && side == 0f) m_WaitForRelease = false;
+                else if (!m_WaitForRelease)
+                {
+                    m_Held = false;
+                    if (walk > 0f)
+                    {
+                        m_GlideTime = 0f;                  // walk on from here
+                    }
+                    else if (walk < 0f)
+                    {
+                        // Back straight out, clear of the text, turning round a random way to
+                        // face the way out. 179 rather than 180 degrees fixes which way it swings.
+                        // Back now points at the text again, so it's ignored until let go.
+                        FaceTurned(UnityEngine.Random.value < 0.5f ? 179f : -179f);
+                        m_IgnoreBack = true;
+                        Glide(m_LeaveTo, true);
+                    }
+                    else
+                    {
+                        // Turn in place to face left or right.
+                        FaceTurned(side < 0f ? -90f : 90f);
+                        Glide(m_RigidBody.position, true);
+                    }
+                }
+            }
+            if (m_IgnoreBack && CrossPlatformInputManager.GetAxisRaw("Vertical") >= 0f)
+                m_IgnoreBack = false;
+            if (m_Held || m_GlideTime > 0f || m_IgnoreBack) input = Vector2.zero;
 			movementSettings.UpdateDesiredTargetSpeed(input);
             return input;
         }

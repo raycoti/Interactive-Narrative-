@@ -53,6 +53,26 @@ namespace UnityStandardAssets.Characters.FirstPerson
         }
 
 
+        // Turns the view part of the way towards a world point; fraction runs from 0 (no turn)
+        // to 1 (facing it). Mouse input is ignored, so call this instead of LookRotation.
+        public void TurnTowards(Transform character, Transform camera, Vector3 point, float fraction)
+        {
+            var dir = point - camera.position;
+            var flat = new Vector3(dir.x, 0f, dir.z);
+            if (flat.sqrMagnitude < 1e-6f) return;
+
+            var yaw = Quaternion.LookRotation(flat);
+            var pitch = Quaternion.Euler(-Mathf.Atan2(dir.y, flat.magnitude) * Mathf.Rad2Deg, 0f, 0f);
+            m_CharacterTargetRot = Quaternion.Slerp(m_CharacterTargetRot, yaw, fraction);
+            m_CameraTargetRot = Quaternion.Slerp(m_CameraTargetRot, pitch, fraction);
+            if (clampVerticalRotation)
+                m_CameraTargetRot = ClampRotationAroundXAxis(m_CameraTargetRot);
+
+            character.localRotation = m_CharacterTargetRot;
+            camera.localRotation = m_CameraTargetRot;
+        }
+
+
         Quaternion ClampRotationAroundXAxis(Quaternion q)
         {
             q.x /= q.w;
