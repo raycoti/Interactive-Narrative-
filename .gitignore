@@ -37,3 +37,7 @@ sysinfo.txt
 
 # macOS
 .DS_Store
+
+# Local build outputs
+/interactive-narrative.app/
+/web game/
