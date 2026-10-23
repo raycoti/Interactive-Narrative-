@@ -3675,6 +3675,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: art gallarey
       objectReference: {fileID: 0}
+    - target: {fileID: 178898, guid: 9a6fbbcbe3eac814d88513eefb2648d7, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 424160, guid: 9a6fbbcbe3eac814d88513eefb2648d7, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 4.9607825
+      objectReference: {fileID: 0}
+    - target: {fileID: 424160, guid: 9a6fbbcbe3eac814d88513eefb2648d7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.02
+      objectReference: {fileID: 0}
     - target: {fileID: 467762, guid: 9a6fbbcbe3eac814d88513eefb2648d7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1500
@@ -3714,6 +3726,26 @@ PrefabInstance:
     - target: {fileID: 477850, guid: 9a6fbbcbe3eac814d88513eefb2648d7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1500
+      objectReference: {fileID: 0}
+    - target: {fileID: 6587428, guid: 9a6fbbcbe3eac814d88513eefb2648d7, type: 3}
+      propertyPath: m_Size.x
+      value: 4.3757343
+      objectReference: {fileID: 0}
+    - target: {fileID: 6587428, guid: 9a6fbbcbe3eac814d88513eefb2648d7, type: 3}
+      propertyPath: m_Size.y
+      value: 1.2414551
+      objectReference: {fileID: 0}
+    - target: {fileID: 6587428, guid: 9a6fbbcbe3eac814d88513eefb2648d7, type: 3}
+      propertyPath: m_Size.z
+      value: 1.1635208
+      objectReference: {fileID: 0}
+    - target: {fileID: 6587428, guid: 9a6fbbcbe3eac814d88513eefb2648d7, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6587428, guid: 9a6fbbcbe3eac814d88513eefb2648d7, type: 3}
+      propertyPath: m_Center.x
+      value: 0.73644924
       objectReference: {fileID: 0}
     - target: {fileID: 10206526, guid: 9a6fbbcbe3eac814d88513eefb2648d7, type: 3}
       propertyPath: m_Text
@@ -9071,7 +9103,7 @@ Transform:
   m_GameObject: {fileID: 1114600418}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071067}
-  m_LocalPosition: {x: 0, y: 0, z: -1600}
+  m_LocalPosition: {x: 0, y: 0, z: -1584.2}
   m_LocalScale: {x: 1, y: 42.411076, z: 1276.0941}
   m_ConstrainProportionsScale: 0
   m_Children: []
