@@ -145,6 +145,35 @@ namespace UnityStandardAssets.Characters.FirstPerson
         }
 
 
+        // Ends a hold the way a walk key does: walk > 0 walks on, walk < 0 glides back out and
+        // turns round, otherwise side turns to face left (< 0) or right (> 0). Walk keys and the
+        // touch buttons both come through here.
+        public void ReleaseHold(float walk, float side)
+        {
+            if (!m_Held) return;
+            m_Held = false;
+            if (walk > 0f)
+            {
+                m_GlideTime = 0f;                  // walk on from here
+            }
+            else if (walk < 0f)
+            {
+                // Back straight out, clear of the text, turning round a random way to
+                // face the way out. 179 rather than 180 degrees fixes which way it swings.
+                // Back now points at the text again, so it's ignored until let go.
+                FaceTurned(UnityEngine.Random.value < 0.5f ? 179f : -179f);
+                m_IgnoreBack = true;
+                Glide(m_LeaveTo, true);
+            }
+            else
+            {
+                // Turn in place to face left or right.
+                FaceTurned(side < 0f ? -90f : 90f);
+                Glide(m_RigidBody.position, true);
+            }
+        }
+
+
         // Points the next glide's view turn at the horizon, the given angle round from where the
         // player faces now (positive is to the right).
         private void FaceTurned(float degrees)
@@ -284,29 +313,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 var walk = CrossPlatformInputManager.GetAxisRaw("Vertical");
                 var side = CrossPlatformInputManager.GetAxisRaw("Horizontal");
                 if (walk == 0f && side == 0f) m_WaitForRelease = false;
-                else if (!m_WaitForRelease)
-                {
-                    m_Held = false;
-                    if (walk > 0f)
-                    {
-                        m_GlideTime = 0f;                  // walk on from here
-                    }
-                    else if (walk < 0f)
-                    {
-                        // Back straight out, clear of the text, turning round a random way to
-                        // face the way out. 179 rather than 180 degrees fixes which way it swings.
-                        // Back now points at the text again, so it's ignored until let go.
-                        FaceTurned(UnityEngine.Random.value < 0.5f ? 179f : -179f);
-                        m_IgnoreBack = true;
-                        Glide(m_LeaveTo, true);
-                    }
-                    else
-                    {
-                        // Turn in place to face left or right.
-                        FaceTurned(side < 0f ? -90f : 90f);
-                        Glide(m_RigidBody.position, true);
-                    }
-                }
+                else if (!m_WaitForRelease) ReleaseHold(walk, side);
             }
             if (m_IgnoreBack && CrossPlatformInputManager.GetAxisRaw("Vertical") >= 0f)
                 m_IgnoreBack = false;
