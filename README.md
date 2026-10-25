@@ -39,8 +39,9 @@ The project was built with Unity 5.3 and has been prepared to open in Unity 6 LT
 - The `Standard%20Assets` folder (a URL-encoding mistake from an earlier upload) was merged back into `Standard Assets`.
 
 ## Continuous deployment
-`.github/workflows/deploy-webgl.yml` builds the WebGL player with [GameCI](https://game.ci) on every push to `master` or `unity6-upgrade`, then deploys it to the `InteractiveNarrative` Azure Web App. Azure sign-in uses OIDC (no stored Azure password); `deploy/web.config` is added to the build so IIS serves the gzip-compressed files.
+The WebGL player is built locally and committed in `web game/`. To release a new version:
 
-Repository secrets the workflow needs:
-- `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID`: the `interactive-narrative-github-deploy` app registration.
-- `UNITY_LICENSE`, `UNITY_EMAIL`, `UNITY_PASSWORD`: a Unity Personal license; see [GameCI activation](https://game.ci/docs/github/activation).
+1. In Unity, run **Tools > Interactive Narrative > Build WebGL** (or `Unity -batchmode -quit -projectPath . -executeMethod WebGLBuilder.Build`).
+2. Commit the changed files in `web game/` and push to `master` or `unity6-upgrade`.
+
+`.github/workflows/deploy-webgl.yml` runs when `web game/` changes and deploys it to the `InteractiveNarrative` Azure Web App, adding `deploy/web.config` so IIS serves the gzip-compressed files. Azure sign-in uses OIDC (no stored Azure password) through the `interactive-narrative-github-deploy` app registration, whose IDs are in the `AZURE_CLIENT_ID`, `AZURE_TENANT_ID` and `AZURE_SUBSCRIPTION_ID` repository secrets.

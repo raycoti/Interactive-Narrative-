@@ -38,6 +38,5 @@ sysinfo.txt
 # macOS
 .DS_Store
 
-# Local build outputs
+# Local build outputs ("web game/" is committed; CI deploys it)
 /interactive-narrative.app/
-/web game/
