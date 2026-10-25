@@ -37,3 +37,10 @@ The project was built with Unity 5.3 and has been prepared to open in Unity 6 LT
 - Open `Assets/test44.unity` and press Play.
 - The original multiplayer used UNet, which Unity has since removed. The project now runs **single-player**: `LocalPlayerSpawner` (on the `NETWORK` object) spawns the player prefab that `NetworkManager` used to spawn. Restoring multiplayer means porting to Netcode for GameObjects or Mirror.
 - The `Standard%20Assets` folder (a URL-encoding mistake from an earlier upload) was merged back into `Standard Assets`.
+
+## Continuous deployment
+`.github/workflows/deploy-webgl.yml` builds the WebGL player with [GameCI](https://game.ci) on every push to `master` or `unity6-upgrade`, then deploys it to the `InteractiveNarrative` Azure Web App. Azure sign-in uses OIDC (no stored Azure password); `deploy/web.config` is added to the build so IIS serves the gzip-compressed files.
+
+Repository secrets the workflow needs:
+- `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID`: the `interactive-narrative-github-deploy` app registration.
+- `UNITY_LICENSE`, `UNITY_EMAIL`, `UNITY_PASSWORD`: a Unity Personal license; see [GameCI activation](https://game.ci/docs/github/activation).
