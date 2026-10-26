@@ -3,6 +3,8 @@ using System.Collections;
 
 public class moveplayer : MonoBehaviour {
     public GameObject gotothis;
+    // How far above the destination to drop the player.
+    public float lift = 50;
     private float x;
     private float y;
     private float z;
@@ -19,6 +21,6 @@ public class moveplayer : MonoBehaviour {
 	}
     void OnTriggerEnter(Collider collision)
     {
-        collision.transform.position = new Vector3(x, y + 50, z);
+        collision.transform.position = new Vector3(x, y + lift, z);
     }
 }

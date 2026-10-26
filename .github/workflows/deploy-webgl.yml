@@ -1,0 +1,53 @@
+name: Deploy WebGL build to Azure
+
+# The WebGL player is built locally (Tools > Interactive Narrative > Build WebGL)
+# and committed in "web game/"; this workflow only deploys it.
+on:
+  push:
+    branches: [master, unity6-upgrade]
+    paths:
+      - 'web game/**'
+      - 'deploy/**'
+      - '.github/workflows/deploy-webgl.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-webgl
+  cancel-in-progress: true
+
+permissions:
+  id-token: write   # Azure login through OIDC
+  contents: read
+
+env:
+  AZURE_RESOURCE_GROUP: InteractiveNarrative
+  AZURE_WEBAPP_NAME: InteractiveNarrative
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      # IIS on the Azure app needs web.config to serve Unity's gzip-compressed files.
+      - name: Package site
+        run: |
+          cp deploy/web.config "web game/"
+          cd "web game" && zip -qr ../site.zip .
+
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Deploy to Azure Web App
+        run: |
+          az webapp deploy \
+            --resource-group "$AZURE_RESOURCE_GROUP" \
+            --name "$AZURE_WEBAPP_NAME" \
+            --src-path site.zip \
+            --type zip \
+            --clean true

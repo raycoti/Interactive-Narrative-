@@ -27,3 +27,21 @@ This was my senior capstone project. The project presentation had my application
 ## Technical:
 Up to 15 users can explore this environment  I created. You walk around with the standard "wasd" and mouse controls. Walk around the environment or go in a train to enter a new location faster. Along the way you will find boxes with floating text, simply walk into the box and the text will start cycling through parts of a poem. Each time you interact with a word cloud in the sky will also be changing. Future iterations will allow for you to submit your own messages to the word cloud for others to see. 
 
+
+<a name = "upgrade"/>
+
+## Running on a current Unity version
+The project was built with Unity 5.3 and has been prepared to open in Unity 6 LTS (Built-in Render Pipeline):
+
+- Open the project folder from Unity Hub with a Unity 6 LTS editor and accept the upgrade prompt. Unity rewrites the old asset files on first import, which takes a few minutes.
+- Open `Assets/test44.unity` and press Play.
+- The original multiplayer used UNet, which Unity has since removed. The project now runs **single-player**: `LocalPlayerSpawner` (on the `NETWORK` object) spawns the player prefab that `NetworkManager` used to spawn. Restoring multiplayer means porting to Netcode for GameObjects or Mirror.
+- The `Standard%20Assets` folder (a URL-encoding mistake from an earlier upload) was merged back into `Standard Assets`.
+
+## Continuous deployment
+The WebGL player is built locally and committed in `web game/`. To release a new version:
+
+1. In Unity, run **Tools > Interactive Narrative > Build WebGL** (or `Unity -batchmode -quit -projectPath . -executeMethod WebGLBuilder.Build`).
+2. Commit the changed files in `web game/` and push to `master` or `unity6-upgrade`.
+
+`.github/workflows/deploy-webgl.yml` runs when `web game/` changes and deploys it to the `InteractiveNarrative` Azure Web App, adding `deploy/web.config` so IIS serves the gzip-compressed files. Azure sign-in uses OIDC (no stored Azure password) through the `interactive-narrative-github-deploy` app registration, whose IDs are in the `AZURE_CLIENT_ID`, `AZURE_TENANT_ID` and `AZURE_SUBSCRIPTION_ID` repository secrets.
