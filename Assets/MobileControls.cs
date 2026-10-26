@@ -7,7 +7,8 @@ using UnityStandardAssets.Characters.FirstPerson;
 // Touch controls for phones and tablets, including the WebGL build opened in a mobile
 // browser. Dragging on the left half of the screen walks, dragging on the right half looks
 // around, and while a poem text box holds the player, buttons offer the same ways out as
-// W, A, S and D. It feeds the same input axes as the keyboard and mouse, so the player
+// W, A, S and D. A Fly button switches to flying, with Up and Down buttons to rise and
+// sink. It feeds the same input axes as the keyboard and mouse, so the player
 // controller needs no changes. Desktop play is unaffected; to try it in the editor, use
 // Window > General > Device Simulator.
 [DefaultExecutionOrder(-100)] // set the axes before the player controller reads them
@@ -24,7 +25,9 @@ public class MobileControls : MonoBehaviour {
     RigidbodyFirstPersonController player;
     Canvas canvas;
     RectTransform stickBase, stickKnob;
-    GameObject holdButtons, hint;
+    GameObject holdButtons, hint, flyToggle, climbButtons;
+    Text flyLabel;
+    bool rising, sinking;
     float hintUntil;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -100,6 +103,14 @@ public class MobileControls : MonoBehaviour {
 
         UpdateStick(move);
         holdButtons.SetActive(player != null && player.Held);
+        var canFly = player != null && player.flySettings.Allowed;
+        flyToggle.SetActive(canFly);
+        if (canFly) flyLabel.text = player.Flying ? "Walk" : "Fly";
+        var climbing = canFly && player.Flying && !player.Held;
+        climbButtons.SetActive(climbing);
+        // A button hidden mid-press never hears the finger lift.
+        if (!climbing) rising = sinking = false;
+        if (player != null) player.TouchClimb = (rising ? 1f : 0f) - (sinking ? 1f : 0f);
         if (hint.activeSelf && player != null && (Time.time > hintUntil || move != Vector2.zero))
             hint.SetActive(false);
         // Keep the UI sized by the screen's shorter side in either orientation.
@@ -146,9 +157,7 @@ public class MobileControls : MonoBehaviour {
         stickBase.gameObject.SetActive(false);
 
         // The ways out of a poem text box, matching W, S, A and D.
-        var panel = new GameObject("Text Box Buttons", typeof(RectTransform)).GetComponent<RectTransform>();
-        panel.SetParent(canvas.transform, false);
-        panel.anchorMin = panel.anchorMax = panel.pivot = new Vector2(0.5f, 0f);
+        var panel = MakePanel("Text Box Buttons", new Vector2(0.5f, 0f));
         holdButtons = panel.gameObject;
         MakeButton(panel, "Continue", new Vector2(0f, 290f), () => player.ReleaseHold(1f, 0f));
         MakeButton(panel, "Back away", new Vector2(0f, 50f), () => player.ReleaseHold(-1f, 0f));
@@ -156,11 +165,30 @@ public class MobileControls : MonoBehaviour {
         MakeButton(panel, "Turn right", new Vector2(330f, 170f), () => player.ReleaseHold(0f, 1f));
         holdButtons.SetActive(false);
 
+        // Fly toggle in the top right corner, and Up and Down on the right edge while flying.
+        var corner = MakePanel("Fly Toggle", new Vector2(1f, 1f));
+        flyToggle = corner.gameObject;
+        flyLabel = MakeButton(corner, "Fly", new Vector2(-180f, -90f), () => player.SetFlying(!player.Flying));
+        flyToggle.SetActive(false);
+        var edge = MakePanel("Climb Buttons", new Vector2(1f, 0.5f));
+        climbButtons = edge.gameObject;
+        MakeHoldButton(edge, "Up", new Vector2(-180f, 70f), held => rising = held);
+        MakeHoldButton(edge, "Down", new Vector2(-180f, -70f), held => sinking = held);
+        climbButtons.SetActive(false);
+
         var hintText = MakeText(canvas.transform, "Drag on the left to walk · drag on the right to look", 36);
         hintText.rectTransform.anchorMin = hintText.rectTransform.anchorMax = new Vector2(0.5f, 0f);
         hintText.rectTransform.anchoredPosition = new Vector2(0f, 80f);
         hintText.rectTransform.sizeDelta = new Vector2(1000f, 80f);
         hint = hintText.gameObject;
+    }
+
+    // An empty holder for buttons, pinned to the given point of the screen.
+    RectTransform MakePanel (string name, Vector2 anchor) {
+        var panel = new GameObject(name, typeof(RectTransform)).GetComponent<RectTransform>();
+        panel.SetParent(canvas.transform, false);
+        panel.anchorMin = panel.anchorMax = panel.pivot = anchor;
+        return panel;
     }
 
     static RectTransform MakeImage (string name, Transform parent, Sprite sprite, Color color) {
@@ -184,17 +212,38 @@ public class MobileControls : MonoBehaviour {
         return text;
     }
 
-    static void MakeButton (RectTransform parent, string label, Vector2 position, UnityEngine.Events.UnityAction onClick) {
-        var image = new GameObject(label + " Button", typeof(Image), typeof(Button)).GetComponent<Image>();
+    // Returns the button's label.
+    static Text MakeButton (RectTransform parent, string label, Vector2 position, UnityEngine.Events.UnityAction onClick) {
+        var image = MakeButtonImage(parent, label, position, typeof(Button));
+        image.GetComponent<Button>().onClick.AddListener(onClick);
+        return image.GetComponentInChildren<Text>();
+    }
+
+    // A button that reports when it's pressed (true) and let go (false), for holding down.
+    static void MakeHoldButton (RectTransform parent, string label, Vector2 position, System.Action<bool> onHold) {
+        var image = MakeButtonImage(parent, label, position, typeof(EventTrigger));
+        var trigger = image.GetComponent<EventTrigger>();
+        AddTrigger(trigger, EventTriggerType.PointerDown, () => onHold(true));
+        AddTrigger(trigger, EventTriggerType.PointerUp, () => onHold(false));
+    }
+
+    static void AddTrigger (EventTrigger trigger, EventTriggerType type, System.Action action) {
+        var entry = new EventTrigger.Entry { eventID = type };
+        entry.callback.AddListener(_ => action());
+        trigger.triggers.Add(entry);
+    }
+
+    static Image MakeButtonImage (RectTransform parent, string label, Vector2 position, System.Type behaviour) {
+        var image = new GameObject(label + " Button", typeof(Image), behaviour).GetComponent<Image>();
         image.transform.SetParent(parent, false);
         image.color = new Color(0f, 0f, 0f, 0.55f);
         image.rectTransform.anchoredPosition = position;
         image.rectTransform.sizeDelta = new Vector2(300f, 110f);
-        image.GetComponent<Button>().onClick.AddListener(onClick);
         var text = MakeText(image.transform, label, 40);
         text.rectTransform.anchorMin = Vector2.zero;
         text.rectTransform.anchorMax = Vector2.one;
         text.rectTransform.sizeDelta = Vector2.zero;
+        return image;
     }
 
     // A filled disc or a soft ring, drawn at runtime so no texture asset is needed.
